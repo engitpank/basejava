@@ -56,6 +56,12 @@ public class ArrayStorage {
     }
 
     int size() {
-        return 0;
+        int size = 0;
+        for (Resume resume : storage) {
+            if (resume != null) {
+                size += 1;
+            }
+        }
+        return size;
     }
 }
