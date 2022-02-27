@@ -7,6 +7,7 @@ import ru.javawebinar.basejava.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+    @Override
     public void save(Resume r) {
         int index = findIndex(r.getUuid());
         if (index != -1) {
@@ -19,6 +20,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
+    @Override
     public void delete(String uuid) {
         int index = findIndex(uuid);
         if (index != -1) {
@@ -28,6 +30,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
+    @Override
     protected int findIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
