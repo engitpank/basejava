@@ -11,6 +11,8 @@ abstract public class AbstractArrayStorage implements Storage {
     protected int size = 0;
 
     protected abstract int findIndex(String uuid);
+    protected abstract void deleteFromArray(int index);
+    protected abstract void saveToArray(Resume r, int index);
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -28,11 +30,35 @@ abstract public class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int index = findIndex(uuid);
-        if (index > 0) {
+        if (index >= 0) {
             return storage[index];
         }
         System.out.println(uuid + ": отсутствует в storage");
         return null;
+    }
+
+    public void delete(String uuid) {
+        int index = findIndex(uuid);
+        if (index >= 0) {
+            deleteFromArray(index);
+            storage[size - 1] = null;
+            size--;
+        } else {
+            System.out.println("Элемент отсутствие в storage");
+        }
+
+    }
+
+    public void save(Resume r) {
+        int index = findIndex(r.getUuid());
+        if (size >= storage.length) {
+            System.out.println("Добавление " + r.getUuid() + ". Переполнен storage");
+        } else if (index >= 0) {
+            System.out.println(r.getUuid() + ": Элемент уже добавлен");
+        } else {
+            saveToArray(r, index);
+            size++;
+        }
     }
 
     /**
@@ -47,6 +73,5 @@ abstract public class AbstractArrayStorage implements Storage {
     public int size() {
         return size;
     }
-
 
 }
