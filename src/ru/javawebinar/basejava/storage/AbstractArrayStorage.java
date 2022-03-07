@@ -1,5 +1,8 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
+import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -11,7 +14,9 @@ abstract public class AbstractArrayStorage implements Storage {
     protected int size = 0;
 
     protected abstract int findIndex(String uuid);
+
     protected abstract void deleteFromArray(int index);
+
     protected abstract void saveToArray(Resume r, int index);
 
     public void clear() {
@@ -21,44 +26,39 @@ abstract public class AbstractArrayStorage implements Storage {
 
     public void update(Resume r) {
         int index = findIndex(r.getUuid());
-        if (index >= 0) {
-            storage[index] = r;
-        } else {
-            System.out.println(r.getUuid() + ": отсутствует в storage");
+        if (index < 0) {
+            throw new NotExistStorageException(r.getUuid());
         }
+        storage[index] = r;
     }
 
     public Resume get(String uuid) {
         int index = findIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
         }
-        System.out.println(uuid + ": отсутствует в storage");
-        return null;
+        return storage[index];
     }
 
     public void delete(String uuid) {
         int index = findIndex(uuid);
-        if (index >= 0) {
-            deleteFromArray(index);
-            storage[size - 1] = null;
-            size--;
-        } else {
-            System.out.println("Элемент отсутствие в storage");
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
         }
-
+        deleteFromArray(index);
+        storage[size - 1] = null;
+        size--;
     }
 
     public void save(Resume r) {
         int index = findIndex(r.getUuid());
         if (size >= storage.length) {
-            System.out.println("Добавление " + r.getUuid() + ". Переполнен storage");
+            throw new StorageException(r.getUuid(), "Storage overflow");
         } else if (index >= 0) {
-            System.out.println(r.getUuid() + ": Элемент уже добавлен");
-        } else {
-            saveToArray(r, index);
-            size++;
+            throw new ExistStorageException(r.getUuid());
         }
+        saveToArray(r, index);
+        size++;
     }
 
     /**
