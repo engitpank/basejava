@@ -4,5 +4,4 @@ class ArrayStorageTest extends AbstractArrayStorageTest {
     ArrayStorageTest() {
         super(new ArrayStorage());
     }
-
 }
