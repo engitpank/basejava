@@ -6,13 +6,9 @@ import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
     protected abstract void saveToStorage(Resume r, int index);
-
     protected abstract void updateResume(Resume r, int index);
-
     protected abstract Resume getFromStorage(int index);
-
     protected abstract void deleteFromStorage(int index);
-
     protected abstract int findIndex(String uuid);
 
     @Override

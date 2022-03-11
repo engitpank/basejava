@@ -12,11 +12,10 @@ abstract public class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     protected abstract int findIndex(String uuid);
-
     protected abstract void deleteFromArray(int index);
-
     protected abstract void saveToArray(Resume r, int index);
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
@@ -58,6 +57,7 @@ abstract public class AbstractArrayStorage extends AbstractStorage {
         return allResume;
     }
 
+    @Override
     public int size() {
         return size;
     }
