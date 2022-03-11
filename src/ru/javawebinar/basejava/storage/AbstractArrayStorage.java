@@ -1,13 +1,11 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
-abstract public class AbstractArrayStorage implements Storage {
+abstract public class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
 
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -24,39 +22,27 @@ abstract public class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    public void update(Resume r) {
-        int index = findIndex(r.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        }
+    @Override
+    public void updateResume(Resume r, int index) {
         storage[index] = r;
     }
 
-    public Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+    @Override
+    public Resume getFromStorage(int index) {
         return storage[index];
     }
 
-    public void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+    @Override
+    public void deleteFromStorage(int index) {
         deleteFromArray(index);
         storage[size - 1] = null;
         size--;
     }
 
-    public void save(Resume r) {
-        int index = findIndex(r.getUuid());
+    @Override
+    public void saveToStorage(Resume r, int index) {
         if (size >= storage.length) {
             throw new StorageException(r.getUuid(), "Storage overflow");
-        }
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
         }
         saveToArray(r, index);
         size++;
@@ -65,6 +51,7 @@ abstract public class AbstractArrayStorage implements Storage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
+    @Override
     public Resume[] getAll() {
         Resume[] allResume = new Resume[size];
         System.arraycopy(storage, 0, allResume, 0, allResume.length);
@@ -74,5 +61,4 @@ abstract public class AbstractArrayStorage implements Storage {
     public int size() {
         return size;
     }
-
 }
