@@ -11,8 +11,11 @@ abstract public class AbstractArrayStorage extends AbstractStorage {
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    @Override
     protected abstract int findIndex(String uuid);
+
     protected abstract void deleteFromArray(int index);
+
     protected abstract void saveToArray(Resume r, int index);
 
     @Override
@@ -22,7 +25,7 @@ abstract public class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void updateResume(Resume r, int index) {
+    public void updateStorage(Resume r, int index) {
         storage[index] = r;
     }
 
