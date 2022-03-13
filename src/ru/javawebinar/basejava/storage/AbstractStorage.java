@@ -5,51 +5,53 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
-    protected abstract void saveToStorage(Resume r, int index);
+    protected abstract void saveToStorage(Resume r, Object index);
 
-    protected abstract void updateStorage(Resume r, int index);
+    protected abstract void updateStorage(Resume r, Object index);
 
-    protected abstract Resume getFromStorage(int index);
+    protected abstract Resume getFromStorage(Object index);
 
-    protected abstract void deleteFromStorage(int index);
+    protected abstract void deleteFromStorage(Object index);
 
-    protected abstract int findIndex(String uuid);
+    protected abstract Object findIndex(String uuid);
+
+    protected abstract boolean isExist(Object searchKey);
 
     @Override
     public void save(Resume r) {
-        int index = getNotExistElement(r.getUuid());
+        Object index = getSearchKeyIfNotExist(r.getUuid());
         saveToStorage(r, index);
     }
 
     @Override
     public void update(Resume r) {
-        int index = getAlreadyExistElement(r.getUuid());
+        Object index = getSearchKeyIfExist(r.getUuid());
         updateStorage(r, index);
     }
 
     @Override
     public Resume get(String uuid) {
-        int index = getAlreadyExistElement(uuid);
+        Object index = getSearchKeyIfExist(uuid);
         return getFromStorage(index);
     }
 
     @Override
     public void delete(String uuid) {
-        int index = getAlreadyExistElement(uuid);
+        Object index = getSearchKeyIfExist(uuid);
         deleteFromStorage(index);
     }
 
-    private int getAlreadyExistElement(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
+    private Object getSearchKeyIfExist(String uuid) {
+        Object index = findIndex(uuid);
+        if (!isExist(index)) {
             throw new NotExistStorageException(uuid);
         }
         return index;
     }
 
-    private int getNotExistElement(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
+    private Object getSearchKeyIfNotExist(String uuid) {
+        Object index = findIndex(uuid);
+        if (isExist(index)) {
             throw new ExistStorageException(uuid);
         }
         return index;

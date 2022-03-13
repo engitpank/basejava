@@ -12,7 +12,7 @@ abstract public class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
-    protected abstract int findIndex(String uuid);
+    protected abstract Integer findIndex(String uuid);
 
     protected abstract void deleteFromArray(int index);
 
@@ -25,28 +25,28 @@ abstract public class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void updateStorage(Resume r, int index) {
-        storage[index] = r;
+    public void updateStorage(Resume r, Object index) {
+        storage[(int) index] = r;
     }
 
     @Override
-    public Resume getFromStorage(int index) {
-        return storage[index];
+    public Resume getFromStorage(Object index) {
+        return storage[(int) index];
     }
 
     @Override
-    public void deleteFromStorage(int index) {
-        deleteFromArray(index);
+    public void deleteFromStorage(Object index) {
+        deleteFromArray((int) index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    public void saveToStorage(Resume r, int index) {
+    public void saveToStorage(Resume r, Object index) {
         if (size >= storage.length) {
             throw new StorageException(r.getUuid(), "Storage overflow");
         }
-        saveToArray(r, index);
+        saveToArray(r, (int) index);
         size++;
     }
 
@@ -63,5 +63,10 @@ abstract public class AbstractArrayStorage extends AbstractStorage {
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return (int) index >= 0;
     }
 }
