@@ -3,7 +3,10 @@ package ru.javawebinar.basejava.storage;
 import org.junit.jupiter.api.Test;
 import ru.javawebinar.basejava.model.Resume;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 class MapStorageTest extends AbstractStorageTest {
 
@@ -12,9 +15,9 @@ class MapStorageTest extends AbstractStorageTest {
     }
 
     @Test
-    void getAll() {
-        Resume[] expected = {new Resume(UUID_2), new Resume(UUID_1), new Resume(UUID_3)};
-        assertArrayEquals(expected, storage.getAll());
+    void getAllSorted() {
+        List<Resume> expected = Arrays.asList(new Resume(UUID_2), new Resume(UUID_1), new Resume(UUID_3));
+        assertIterableEquals(expected, storage.getAllSorted());
     }
 
 }
