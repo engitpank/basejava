@@ -18,14 +18,18 @@ public class Resume implements Comparable<Resume> {
     public Resume(String uuid) {
         this(uuid, "");
     }
+
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
     }
 
-
     public String getUuid() {
         return uuid;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     @Override
