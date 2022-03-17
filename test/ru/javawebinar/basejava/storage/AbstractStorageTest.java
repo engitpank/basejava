@@ -14,9 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 abstract class AbstractStorageTest {
 
     protected final Storage storage;
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
+    protected static final String UUID_1 = "uuid1";
+    protected static final String UUID_2 = "uuid2";
+    protected static final String UUID_3 = "uuid3";
+    protected static final String FULLNAME_1 = "Tim";
+    protected static final String FULLNAME_2 = "Mike";
+    protected static final String FULLNAME_3 = "Kate";
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -25,9 +28,9 @@ abstract class AbstractStorageTest {
     @BeforeEach
     void setUp() {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(new Resume(UUID_1, FULLNAME_1));
+        storage.save(new Resume(UUID_2, FULLNAME_2));
+        storage.save(new Resume(UUID_3, FULLNAME_3));
     }
 
     @Test
@@ -85,8 +88,9 @@ abstract class AbstractStorageTest {
 
     @Test
     void getAllSorted() {
-        List<Resume> expected = Arrays.asList(new Resume(UUID_1), new Resume(UUID_2), new Resume(UUID_3));
-        assertIterableEquals(expected, storage.getAllSorted());
+        List<Resume> expected = Arrays.asList(new Resume(UUID_3, FULLNAME_3), new Resume(UUID_2, FULLNAME_2), new Resume(UUID_1, FULLNAME_1));
+        List<Resume> actual = storage.getAllSorted();
+        assertIterableEquals(expected, actual);
     }
 
     @Test
