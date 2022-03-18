@@ -12,7 +12,7 @@ abstract public class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
-    protected abstract Integer findIndex(String uuid);
+    protected abstract Integer findSearchKey(String uuid);
 
     protected abstract void deleteFromArray(int index);
 

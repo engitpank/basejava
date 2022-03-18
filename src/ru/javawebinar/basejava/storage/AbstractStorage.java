@@ -8,15 +8,15 @@ import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
-    protected abstract void saveToStorage(Resume r, Object index);
+    protected abstract void saveToStorage(Resume r, Object searchKey);
 
-    protected abstract void updateStorage(Resume r, Object index);
+    protected abstract void updateStorage(Resume r, Object searchKey);
 
-    protected abstract Resume getFromStorage(Object index);
+    protected abstract Resume getFromStorage(Object searchKey);
 
-    protected abstract void deleteFromStorage(Object index);
+    protected abstract void deleteFromStorage(Object searchKey);
 
-    protected abstract Object findIndex(String uuid);
+    protected abstract Object findSearchKey(String uuid);
 
     protected abstract boolean isExist(Object searchKey);
 
@@ -24,26 +24,26 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume r) {
-        Object index = getSearchKeyIfNotExist(r.getUuid());
-        saveToStorage(r, index);
+        Object searchKey = getSearchKeyIfNotExist(r.getUuid());
+        saveToStorage(r, searchKey);
     }
 
     @Override
     public void update(Resume r) {
-        Object index = getSearchKeyIfExist(r.getUuid());
-        updateStorage(r, index);
+        Object searchKey = getSearchKeyIfExist(r.getUuid());
+        updateStorage(r, searchKey);
     }
 
     @Override
     public Resume get(String uuid) {
-        Object index = getSearchKeyIfExist(uuid);
-        return getFromStorage(index);
+        Object searchKey = getSearchKeyIfExist(uuid);
+        return getFromStorage(searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        Object index = getSearchKeyIfExist(uuid);
-        deleteFromStorage(index);
+        Object searchKey = getSearchKeyIfExist(uuid);
+        deleteFromStorage(searchKey);
     }
 
     @Override
@@ -51,24 +51,24 @@ public abstract class AbstractStorage implements Storage {
         List<Resume> allResume = getStorageForSort();
         allResume.sort(Comparator.nullsLast(
                 Comparator.comparing(Resume::getFullName).
-                        thenComparing(Comparator.naturalOrder())
+                        thenComparing(Resume::getUuid)
         ));
         return allResume;
     }
 
     private Object getSearchKeyIfExist(String uuid) {
-        Object index = findIndex(uuid);
-        if (!isExist(index)) {
+        Object searchKey = findSearchKey(uuid);
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 
     private Object getSearchKeyIfNotExist(String uuid) {
-        Object index = findIndex(uuid);
-        if (isExist(index)) {
+        Object searchKey = findSearchKey(uuid);
+        if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 }

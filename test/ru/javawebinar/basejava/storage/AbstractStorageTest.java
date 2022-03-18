@@ -41,7 +41,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void update() {
-        Resume expected = new Resume(UUID_1);
+        Resume expected = new Resume(UUID_1, "Peppa");
         storage.update(expected);
         assertSame(expected, storage.get(UUID_1));
     }
@@ -53,7 +53,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void get() {
-        assertEquals(new Resume(UUID_1), storage.get(UUID_1));
+        assertEquals(new Resume(UUID_1, FULLNAME_1), storage.get(UUID_1));
     }
 
     @Test
@@ -75,7 +75,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void save() {
-        Resume newR = new Resume("uuid_4");
+        Resume newR = new Resume("uuid_4", "Jack");
         storage.save(newR);
         assertEquals(newR, storage.get("uuid_4"));
         assertEquals(4, storage.size());
@@ -83,7 +83,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void saveAlreadyExist() {
-        assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1)));
+        assertThrows(ExistStorageException.class, () -> storage.save(new Resume(UUID_1, FULLNAME_1)));
     }
 
     @Test

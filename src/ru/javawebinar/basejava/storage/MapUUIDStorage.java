@@ -2,12 +2,14 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public abstract class AbstractMapStorage extends AbstractStorage {
+public class MapUUIDStorage extends AbstractStorage {
+
     protected final Map<String, Resume> storage = new HashMap<>();
-
-    protected abstract String findIndexBy(String searchKey);
 
     @Override
     protected void saveToStorage(Resume r, Object uuid) {
@@ -30,8 +32,8 @@ public abstract class AbstractMapStorage extends AbstractStorage {
     }
 
     @Override
-    protected String findIndex(String searchKey) {
-        return findIndexBy(searchKey);
+    protected String findSearchKey(String uuid) {
+        return uuid;
     }
 
     @Override
