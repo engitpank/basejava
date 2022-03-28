@@ -50,7 +50,6 @@ public class Resume implements Comparable<Resume> {
         return sections.get(sectionType);
     }
 
-
     @Override
     public String toString() {
         return fullName + " (" + uuid + ")";

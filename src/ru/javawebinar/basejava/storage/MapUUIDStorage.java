@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class MapUUIDStorage extends AbstractStorage<String> {
 
-    protected final Map<String, Resume> storage = new HashMap<>();
+    private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected void saveToStorage(Resume r, String uuid) {
@@ -46,7 +46,7 @@ public class MapUUIDStorage extends AbstractStorage<String> {
         storage.clear();
     }
 
-    public List<Resume> getStorageForSort(){
+    public List<Resume> getStorageAsList() {
         return new ArrayList<>(storage.values());
     }
 

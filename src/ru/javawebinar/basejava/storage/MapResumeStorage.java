@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MapResumeStorage extends AbstractStorage<Resume> {
-    protected final Map<String, Resume> storage = new HashMap<>();
+    private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected void saveToStorage(Resume r, Resume resume) {
@@ -45,7 +45,7 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
         storage.clear();
     }
 
-    public List<Resume> getStorageForSort(){
+    public List<Resume> getStorageAsList() {
         return new ArrayList<>(storage.values());
     }
 

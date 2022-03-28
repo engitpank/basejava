@@ -1,11 +1,18 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-public class BulletedListSection extends AbstractSection{
+public class BulletedListSection extends AbstractSection {
     private final List<String> items;
 
+    public BulletedListSection(String... items) {
+        this(Arrays.asList(items));
+    }
+
     public BulletedListSection(List<String> items) {
+        Objects.requireNonNull(items, "companies must not be null");
         this.items = items;
     }
 

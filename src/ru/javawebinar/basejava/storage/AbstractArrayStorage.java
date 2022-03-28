@@ -3,7 +3,8 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 abstract public class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
@@ -51,7 +52,7 @@ abstract public class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    public List<Resume> getStorageForSort() {
+    public List<Resume> getStorageAsList() {
         return Arrays.asList(storage).subList(0, size);
     }
 

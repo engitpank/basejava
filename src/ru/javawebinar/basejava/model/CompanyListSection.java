@@ -1,9 +1,14 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class CompanyListSection extends AbstractSection{
+public class CompanyListSection extends AbstractSection {
     private final List<CompanySection> companySections;
+
+    public CompanyListSection(CompanySection... companies) {
+        this(Arrays.asList(companies));
+    }
 
     public CompanyListSection(List<CompanySection> companySections) {
         this.companySections = companySections;

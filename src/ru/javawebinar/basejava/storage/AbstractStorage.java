@@ -23,7 +23,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract boolean isExist(SK searchKey);
 
-    protected abstract List<Resume> getStorageForSort();
+    protected abstract List<Resume> getStorageAsList();
 
     @Override
     public void save(Resume r) {
@@ -55,7 +55,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> allResume = getStorageForSort();
+        List<Resume> allResume = getStorageAsList();
         LOG.info("GetAllSorted " + allResume);
         allResume.sort(Comparator.nullsLast(
                 Comparator.comparing(Resume::getFullName).

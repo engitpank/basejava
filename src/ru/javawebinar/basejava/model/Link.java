@@ -2,26 +2,27 @@ package ru.javawebinar.basejava.model;
 
 import java.util.Objects;
 
-public class LinkSection {
+public class Link {
     private final String link;
-    private final String title;
+    private final String name;
 
-    public LinkSection(String title, String link) {
+    public Link(String name, String link) {
+        Objects.requireNonNull(name, "title must not be null");
         this.link = link;
-        this.title = title;
+        this.name = name;
     }
 
     public String getLink() {
         return link;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return title + "(" + link + ")";
+        return name + "(" + link + ")";
     }
 
     @Override
@@ -29,16 +30,16 @@ public class LinkSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        LinkSection that = (LinkSection) o;
+        Link that = (Link) o;
 
         if (!Objects.equals(link, that.link)) return false;
-        return title.equals(that.title);
+        return name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
         int result = link != null ? link.hashCode() : 0;
-        result = 31 * result + title.hashCode();
+        result = 31 * result + name.hashCode();
         return result;
     }
 }

@@ -20,8 +20,8 @@ public class ResumeTestData {
         }
     }
 
-    private static Resume getTemplateFilledResume() {
-        Resume resume = new Resume("Григорий Кислин");
+    public static Resume getTemplateFilledResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
 
         // Contacts
         resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
@@ -58,50 +58,50 @@ public class ResumeTestData {
         // EXPERIENCE Section
         List<CompanySection> companies = new ArrayList<>();
 
-        List<Experience> JProjectExperienceList = new ArrayList<>();
-        JProjectExperienceList.add(new Experience(YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта.",
+        List<CompanySection.Experience> JProjectExperienceList = new ArrayList<>();
+        JProjectExperienceList.add(new CompanySection.Experience(YearMonth.of(2013, 10), YearMonth.now(), "Автор проекта.",
                 "Создание, организация и проведение Java онлайн проектов и стажировок."));
-        companies.add(new CompanySection("Java Online Project", "http://javaops.ru/", JProjectExperienceList));
+        companies.add(new CompanySection(new Link("Java Online Project", "http://javaops.ru/"), JProjectExperienceList));
 
-        List<Experience> ritExperienceList = new ArrayList<>();
+        List<CompanySection.Experience> ritExperienceList = new ArrayList<>();
 
-        ritExperienceList.add(new Experience(YearMonth.of(2012, 4), YearMonth.of(2014, 10),
+        ritExperienceList.add(new CompanySection.Experience(YearMonth.of(2012, 4), YearMonth.of(2014, 10),
                 "Java архитектор",
                 "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, " +
                         "ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO."
         ));
-        companies.add(new CompanySection("RIT CENTER", null, ritExperienceList));
-        List<Experience> WikeExperienceList = new ArrayList<>();
+        companies.add(new CompanySection(new Link("RIT CENTER", null), ritExperienceList));
+        List<CompanySection.Experience> WikeExperienceList = new ArrayList<>();
 
-        WikeExperienceList.add(new Experience(YearMonth.of(2014, 10), YearMonth.of(2016, 1),
+        WikeExperienceList.add(new CompanySection.Experience(YearMonth.of(2014, 10), YearMonth.of(2016, 1),
                 "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, " +
                         "MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, " +
                         "JWT SSO."));
-        companies.add(new CompanySection("Wrike", "https://www.wrike.com/", WikeExperienceList));
+        companies.add(new CompanySection(new Link("Wrike", "https://www.wrike.com/"), WikeExperienceList));
 
-        List<Experience> LuxoftExperienceList = new ArrayList<>();
-        LuxoftExperienceList.add(new Experience(YearMonth.of(2010, 12), YearMonth.of(2012, 4),
+        List<CompanySection.Experience> LuxoftExperienceList = new ArrayList<>();
+        LuxoftExperienceList.add(new CompanySection.Experience(YearMonth.of(2010, 12), YearMonth.of(2012, 4),
                 "Ведущий программист",
                 "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle)." +
                         " Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и " +
                         "анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, " +
                         "Commet, HTML5."));
-        companies.add(new CompanySection("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/", LuxoftExperienceList));
+        companies.add(new CompanySection(new Link("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/"), LuxoftExperienceList));
         resume.addSection(SectionType.EXPERIENCE, new CompanyListSection(companies));
 
         // EDUCATION Section
         List<CompanySection> educationCompanies = new ArrayList<>();
 
-        List<Experience> ITMOExperienceList = new ArrayList<>();
-        ITMOExperienceList.add(new Experience(YearMonth.of(1993, 9), YearMonth.of(1996, 7), "Аспирантура (программист С, С++)", null));
-        ITMOExperienceList.add(new Experience(YearMonth.of(1987, 9), YearMonth.of(1993, 6), "Инженер (программист Fortran, C)", null));
-        educationCompanies.add(new CompanySection("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
-                "https://itmo.ru/ru/", ITMOExperienceList));
+        List<CompanySection.Experience> ITMOExperienceList = new ArrayList<>();
+        ITMOExperienceList.add(new CompanySection.Experience(YearMonth.of(1993, 9), YearMonth.of(1996, 7), "Аспирантура (программист С, С++)", null));
+        ITMOExperienceList.add(new CompanySection.Experience(YearMonth.of(1987, 9), YearMonth.of(1993, 6), "Инженер (программист Fortran, C)", null));
+        educationCompanies.add(new CompanySection(new Link("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+                "https://itmo.ru/ru/"), ITMOExperienceList));
 
-        List<Experience> MFTIExperienceList = new ArrayList<>();
-        MFTIExperienceList.add(new Experience(YearMonth.of(1984, 9), YearMonth.of(1987, 6), "Закончил с отличием", null));
-        educationCompanies.add(new CompanySection("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/", MFTIExperienceList));
+        List<CompanySection.Experience> MFTIExperienceList = new ArrayList<>();
+        MFTIExperienceList.add(new CompanySection.Experience(YearMonth.of(1984, 9), YearMonth.of(1987, 6), "Закончил с отличием", null));
+        educationCompanies.add(new CompanySection(new Link("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/"), MFTIExperienceList));
 
         resume.addSection(SectionType.EDUCATION, new CompanyListSection(educationCompanies));
 
@@ -109,7 +109,7 @@ public class ResumeTestData {
     }
 
     public static void main(String[] args) {
-        Resume resume = getTemplateFilledResume();
+        Resume resume = getTemplateFilledResume("Григорий Кислин", "2343");
         printResume(resume);
     }
 }

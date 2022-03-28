@@ -9,6 +9,7 @@ public enum SectionType {
     EDUCATION("Образование");
 
     private final String title;
+
     SectionType(String title) {
         this.title = title;
     }

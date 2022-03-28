@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListStorage extends AbstractStorage<Integer> {
-    protected final List<Resume> storage = new ArrayList<>();
+    private final List<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -40,7 +40,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected List<Resume> getStorageForSort() {
+    protected List<Resume> getStorageAsList() {
         return new ArrayList<>(storage);
     }
 

@@ -6,18 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TestSingleton {
-    private static TestSingleton instance;
     private static final Map<String, SectionType> sectionTypes = new HashMap<>();
+    private static TestSingleton instance;
+
+    private TestSingleton() {
+
+    }
 
     public static TestSingleton getInstance() {
         if (instance == null) {
             instance = new TestSingleton();
         }
         return instance;
-    }
-
-    private TestSingleton() {
-
     }
 
     public static void main(String[] args) {
