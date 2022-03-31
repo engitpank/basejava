@@ -1,6 +1,11 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serial;
+
 public class SimpleLineSection extends AbstractSection {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final String text;
 
     public SimpleLineSection(String text) {

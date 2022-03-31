@@ -1,9 +1,13 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.List;
 
 public class CompanyListSection extends AbstractSection {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final List<CompanySection> companySections;
 
     public CompanyListSection(CompanySection... companies) {

@@ -1,5 +1,7 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +10,10 @@ import java.util.Objects;
 import static ru.javawebinar.basejava.util.DateUtil.NOW;
 import static ru.javawebinar.basejava.util.DateUtil.of;
 
-public class CompanySection {
+public class CompanySection implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final Link homePage;
     private final List<Experience> experienceList;
 
@@ -53,18 +58,23 @@ public class CompanySection {
         return result;
     }
 
-    public static class Experience {
+    public static class Experience implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
         private final YearMonth startDate;
         private final YearMonth finishDate;
         private final String title;
         private final String description;
 
-        public Experience(int startMonth, int startYear, String title, String description){
+        public Experience(int startMonth, int startYear, String title, String description) {
             this(of(startMonth, startYear), NOW, title, description);
         }
-        public Experience(int startMonth, int startYear, int endMonth, int endYear, String title, String description){
-            this(of(startMonth, startYear), of(endYear,endMonth), title, description);
+
+        public Experience(int startMonth, int startYear, int endMonth, int endYear, String title, String description) {
+            this(of(startMonth, startYear), of(endYear, endMonth), title, description);
         }
+
         public Experience(YearMonth startDate, YearMonth finishDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");
             Objects.requireNonNull(finishDate, "finishDate must not be null");
