@@ -50,14 +50,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             return readFile(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException(null, "IO error: " + file.getName(), e);
+            throw new StorageException(file.getName(), "IO error: " + file.getName(), e);
         }
     }
 
     @Override
     protected void deleteFromStorage(File file) {
         if (!file.delete()) {
-            throw new StorageException(null, "File delete error" + file.getName());
+            throw new StorageException(file.getName(), "File delete error: " + file.getName());
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> getStorageAsList() {
         File[] allResumeFiles = directory.listFiles();
         if (allResumeFiles == null) {
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
         List<Resume> resumeList = new ArrayList<>();
         for (File file : allResumeFiles) {
@@ -98,7 +98,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public int size() {
         String[] list = directory.list();
         if (list == null) {
-            throw new StorageException(null, "Directory read error");
+            throw new StorageException("Directory read error");
         }
         return list.length;
     }

@@ -11,23 +11,23 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected void saveToStorage(Resume r, Resume resume) {
+    protected void saveToStorage(Resume r, Resume resumeAsKey) {
         storage.put(r.getUuid(), r);
     }
 
     @Override
-    protected void updateStorage(Resume r, Resume resume) {
-        storage.replace(resume.getUuid(), r);
+    protected void updateStorage(Resume r, Resume resumeAsKey) {
+        storage.replace(resumeAsKey.getUuid(), r);
     }
 
     @Override
-    protected Resume getFromStorage(Resume resume) {
-        return resume;
+    protected Resume getFromStorage(Resume resumeAsKey) {
+        return resumeAsKey;
     }
 
     @Override
-    protected void deleteFromStorage(Resume resume) {
-        storage.remove(resume.getUuid());
+    protected void deleteFromStorage(Resume resumeAsKey) {
+        storage.remove(resumeAsKey.getUuid());
     }
 
     @Override
@@ -36,8 +36,8 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    protected boolean isExist(Resume resume) {
-        return resume != null;
+    protected boolean isExist(Resume resumeAsKey) {
+        return resumeAsKey != null;
     }
 
     @Override

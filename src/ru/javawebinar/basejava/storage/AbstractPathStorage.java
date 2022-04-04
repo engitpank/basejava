@@ -33,7 +33,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(pathToResume);
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + pathToResume.toAbsolutePath(), pathToResume.getFileName().toString(), e);
+            throw new StorageException(getFileName(pathToResume), "Couldn't create file " + pathToResume.toAbsolutePath(), e);
         }
         updateStorage(r, pathToResume);
     }
@@ -43,7 +43,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             writeToFile(r, new BufferedOutputStream(new FileOutputStream(pathToResume.toFile())));
         } catch (IOException e) {
-            throw new StorageException("IO error", pathToResume.getFileName().toString(), e);
+            throw new StorageException(getFileName(pathToResume), "IO error", e);
         }
     }
 
@@ -52,7 +52,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             return readFile(new BufferedInputStream(new FileInputStream(pathToResume.toFile())));
         } catch (IOException e) {
-            throw new StorageException("IO error", pathToResume.getFileName().toString(), e);
+            throw new StorageException(getFileName(pathToResume), "IO error", e);
         }
     }
 
@@ -61,13 +61,13 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(file);
         } catch (IOException e) {
-            throw new StorageException(null, "File couldn't be deleted");
+            throw new StorageException("File couldn't be deleted", e);
         }
     }
 
     @Override
     protected Path findSearchKey(String uuid) {
-        return Path.of(directory.toString(), uuid);
+        return Path.of(getFileName(directory), uuid);
     }
 
     @Override
@@ -82,7 +82,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
             Files.list(directory).forEach(path -> resumeList.add(getFromStorage(path)));
             return resumeList;
         } catch (IOException e) {
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
     }
 
@@ -91,7 +91,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.list(directory).forEach(this::deleteFromStorage);
         } catch (IOException e) {
-            throw new StorageException(null, "Path delete error");
+            throw new StorageException("Path delete error", e);
         }
     }
 
@@ -100,7 +100,11 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             return (int) Files.list(directory).count();
         } catch (IOException e) {
-            throw new StorageException(null, "Unable to access the number of the directory");
+            throw new StorageException("Unable to access the number of the directory", e);
         }
+    }
+
+    private String getFileName(Path pathToResume) {
+        return pathToResume.getFileName().toString();
     }
 }

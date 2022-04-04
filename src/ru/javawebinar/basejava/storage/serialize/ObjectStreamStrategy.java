@@ -11,7 +11,7 @@ public class ObjectStreamStrategy implements SerializeStrategy {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException | IOException e) {
-            throw new StorageException(null, "Error read resume", e);
+            throw new StorageException("Error read resume", e);
         }
     }
 

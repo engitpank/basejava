@@ -34,7 +34,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(pathToResume);
         } catch (IOException e) {
-            throw new StorageException(null, "Couldn't create file " + pathToResume.toAbsolutePath() + "\\" + pathToResume.getFileName().toString(), e);
+            throw new StorageException(getFileName(pathToResume), "Couldn't create file " + pathToResume, e);
         }
         updateStorage(r, pathToResume);
     }
@@ -44,7 +44,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             serializeStrategy.writeToFile(r, new BufferedOutputStream(Files.newOutputStream(pathToResume)));
         } catch (IOException e) {
-            throw new StorageException(null, "IO error " + pathToResume.getFileName().toString(), e);
+            throw new StorageException(getFileName(pathToResume), "IO error " + pathToResume, e);
         }
     }
 
@@ -53,7 +53,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return serializeStrategy.readFile(new BufferedInputStream(Files.newInputStream(pathToResume)));
         } catch (IOException e) {
-            throw new StorageException(null, "IO error " + pathToResume.getFileName().toString(), e);
+            throw new StorageException(getFileName(pathToResume), "IO error " + pathToResume, e);
         }
     }
 
@@ -62,7 +62,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(file);
         } catch (IOException e) {
-            throw new StorageException(null, "File couldn't be deleted");
+            throw new StorageException("File couldn't be deleted", e);
         }
     }
 
@@ -73,7 +73,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected boolean isExist(Path file) {
-        return Files.exists(file);
+        return Files.isRegularFile(file);
     }
 
     @Override
@@ -95,7 +95,11 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException(null, "Directory read error");
+            throw new StorageException("Directory read error", e);
         }
+    }
+
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
     }
 }

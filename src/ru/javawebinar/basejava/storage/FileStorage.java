@@ -41,7 +41,7 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             serializeStrategy.writeToFile(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException(r.getUuid(), "IO error: " + file.getName(), e);
+            throw new StorageException(r.getUuid(), "IO error", e);
         }
     }
 
@@ -50,14 +50,14 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             return serializeStrategy.readFile(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException(null, "IO error: " + file.getName(), e);
+            throw new StorageException(file.getName(), "IO error", e);
         }
     }
 
     @Override
     protected void deleteFromStorage(File file) {
         if (!file.delete()) {
-            throw new StorageException(null, "File delete error" + file.getName());
+            throw new StorageException(file.getName(), "File delete error");
         }
     }
 
@@ -97,7 +97,7 @@ public class FileStorage extends AbstractStorage<File> {
     private File[] getListFiles() {
         File[] list = directory.listFiles();
         if (list == null) {
-            throw new StorageException(null, "Directory read error");
+            throw new StorageException("Directory read error");
         }
         return list;
     }

@@ -22,7 +22,7 @@ public class ObjectStreamPathStorage extends AbstractPathStorage {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
-            throw new StorageException(null, "Error read resume", e);
+            throw new StorageException("Error read resume", e);
         }
     }
 }
