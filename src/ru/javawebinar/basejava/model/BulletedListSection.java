@@ -9,7 +9,10 @@ public class BulletedListSection extends AbstractSection {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final List<String> items;
+    private List<String> items;
+
+    public BulletedListSection() {
+    }
 
     public BulletedListSection(String... items) {
         this(Arrays.asList(items));

@@ -6,7 +6,10 @@ public class SimpleLineSection extends AbstractSection {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final String text;
+    private String text;
+
+    public SimpleLineSection() {
+    }
 
     public SimpleLineSection(String text) {
         this.text = text;

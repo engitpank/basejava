@@ -8,7 +8,10 @@ public class CompanyListSection extends AbstractSection {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final List<CompanySection> companySections;
+    private List<CompanySection> companySections;
+
+    public CompanyListSection() {
+    }
 
     public CompanyListSection(CompanySection... companies) {
         this(Arrays.asList(companies));

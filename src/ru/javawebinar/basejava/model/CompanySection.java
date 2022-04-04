@@ -1,5 +1,10 @@
 package ru.javawebinar.basejava.model;
 
+import ru.javawebinar.basejava.util.YearMonthAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.YearMonth;
@@ -10,12 +15,16 @@ import java.util.Objects;
 import static ru.javawebinar.basejava.util.DateUtil.NOW;
 import static ru.javawebinar.basejava.util.DateUtil.of;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CompanySection implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final Link homePage;
-    private final List<Experience> experienceList;
+    private Link homePage;
+    private List<Experience> experienceList;
+
+    public CompanySection() {
+    }
 
     public CompanySection(String nameLink, String link, Experience... experiences) {
         this(new Link(nameLink, link), Arrays.asList(experiences));
@@ -58,14 +67,19 @@ public class CompanySection implements Serializable {
         return result;
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth startDate;
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
+        private YearMonth finishDate;
+        private String title;
+        private String description;
 
-        private final YearMonth startDate;
-        private final YearMonth finishDate;
-        private final String title;
-        private final String description;
+        public Experience() {
+        }
 
         public Experience(int startMonth, int startYear, String title, String description) {
             this(of(startMonth, startYear), NOW, title, description);
