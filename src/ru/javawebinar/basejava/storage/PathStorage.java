@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.serialize.SerializeStrategy;
+import ru.javawebinar.basejava.storage.serializer.StreamSerializer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,13 +17,13 @@ import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
-    private final SerializeStrategy serializeStrategy;
+    private final StreamSerializer streamSerializer;
 
-    protected PathStorage(String dir, SerializeStrategy serializeStrategy) {
+    protected PathStorage(String dir, StreamSerializer streamSerializer) {
         Objects.requireNonNull(dir, "directory must not be null");
-        Objects.requireNonNull(serializeStrategy, "The serialization strategy must not be null");
+        Objects.requireNonNull(streamSerializer, "The serialization strategy must not be null");
         this.directory = Paths.get(dir);
-        this.serializeStrategy = serializeStrategy;
+        this.streamSerializer = streamSerializer;
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
@@ -42,7 +42,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void updateStorage(Resume r, Path pathToResume) {
         try {
-            serializeStrategy.writeToFile(r, new BufferedOutputStream(Files.newOutputStream(pathToResume)));
+            streamSerializer.writeToFile(r, new BufferedOutputStream(Files.newOutputStream(pathToResume)));
         } catch (IOException e) {
             throw new StorageException(getFileName(pathToResume), "IO error " + pathToResume, e);
         }
@@ -51,7 +51,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume getFromStorage(Path pathToResume) {
         try {
-            return serializeStrategy.readFile(new BufferedInputStream(Files.newInputStream(pathToResume)));
+            return streamSerializer.readFile(new BufferedInputStream(Files.newInputStream(pathToResume)));
         } catch (IOException e) {
             throw new StorageException(getFileName(pathToResume), "IO error " + pathToResume, e);
         }
