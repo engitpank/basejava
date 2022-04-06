@@ -99,6 +99,10 @@ public class CompanySection implements Serializable {
             this.description = description;
         }
 
+        public String getTitle() {
+            return title;
+        }
+
         public YearMonth getStartDate() {
             return startDate;
         }

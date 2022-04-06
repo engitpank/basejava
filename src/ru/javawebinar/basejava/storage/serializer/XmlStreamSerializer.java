@@ -6,8 +6,8 @@ import ru.javawebinar.basejava.util.XmlParser;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class XmlStreamSerializer implements StreamSerializer{
-    private XmlParser xmlParser;
+public class XmlStreamSerializer implements StreamSerializer {
+    private final XmlParser xmlParser;
 
     public XmlStreamSerializer() {
         xmlParser = new XmlParser(
@@ -15,7 +15,6 @@ public class XmlStreamSerializer implements StreamSerializer{
                 Link.class, SimpleLineSection.class, BulletedListSection.class, CompanySection.Experience.class
         );
     }
-
 
     @Override
     public void writeToFile(Resume r, OutputStream os) throws IOException {
