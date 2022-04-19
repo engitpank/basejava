@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.ResumeTestData;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
@@ -10,21 +11,25 @@ import ru.javawebinar.basejava.model.Resume;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("./storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
-    protected static final String UUID_1 = "uuid1";
-    protected static final String UUID_2 = "uuid2";
-    protected static final String UUID_3 = "uuid3";
-    protected static final String FULLNAME_1 = "Tim";
-    protected static final String FULLNAME_2 = "Mike";
-    protected static final String FULLNAME_3 = "Kate";
+    protected static final String UUID_1 = UUID.randomUUID().toString();
+    protected static final String UUID_2 = UUID.randomUUID().toString();
+    protected static final String UUID_3 = UUID.randomUUID().toString();
+    protected static final String NEW_UUID = UUID.randomUUID().toString();
+    protected static final String FULLNAME_1 = "fullName3";
+    protected static final String FULLNAME_2 = "fullName2";
+    protected static final String FULLNAME_3 = "fullName1";
+    protected static final String FULLNAME_4 = "newUser";
     private static final Resume RESUME_1 = ResumeTestData.getTemplateFilledResume(UUID_1, FULLNAME_1);
     private static final Resume RESUME_2 = ResumeTestData.getTemplateFilledResume(UUID_2, FULLNAME_2);
     private static final Resume RESUME_3 = ResumeTestData.getTemplateFilledResume(UUID_3, FULLNAME_3);
+    private static final Resume NEW_RESUME = ResumeTestData.getTemplateFilledResume(NEW_UUID, FULLNAME_4);
     protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
@@ -47,7 +52,7 @@ abstract class AbstractStorageTest {
 
     @Test
     void update() {
-        Resume expected = new Resume(UUID_1, "Peppa");
+        Resume expected = new Resume(UUID_1, "UPDATED_USER");
         storage.update(expected);
         assertEquals(expected, storage.get(UUID_1));
     }
@@ -81,9 +86,8 @@ abstract class AbstractStorageTest {
 
     @Test
     void save() {
-        Resume newR = new Resume("uuid_4", "Jack");
-        storage.save(newR);
-        assertEquals(newR, storage.get("uuid_4"));
+        storage.save(NEW_RESUME);
+        assertEquals(NEW_RESUME, storage.get(NEW_UUID));
         assertEquals(4, storage.size());
     }
 

@@ -1,10 +1,9 @@
 package ru.javawebinar.basejava;
 
-import ru.javawebinar.basejava.model.*;
-
-import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.List;
+import ru.javawebinar.basejava.model.AbstractSection;
+import ru.javawebinar.basejava.model.ContactType;
+import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.SectionType;
 
 public class ResumeTestData {
     private static void printResume(Resume resume) {
@@ -32,6 +31,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
         resume.addContact(ContactType.OWN_SITE, "http://gkislin.ru/");
 
+/*
         // OBJECTIVE Section
         resume.addSection(SectionType.OBJECTIVE,
                 new SimpleLineSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
@@ -104,7 +104,7 @@ public class ResumeTestData {
         educationCompanies.add(new CompanySection(new Link("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/"), MFTIExperienceList));
 
         resume.addSection(SectionType.EDUCATION, new CompanyListSection(educationCompanies));
-
+*/
         return resume;
     }
 
