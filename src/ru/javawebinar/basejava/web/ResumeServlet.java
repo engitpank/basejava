@@ -5,6 +5,8 @@ import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.Storage;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,11 @@ import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
     Storage storage = Config.get().getStorage();
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
@@ -33,7 +40,7 @@ public class ResumeServlet extends HttpServlet {
                     "  </tr>");
             for (Resume resume : allResume) {
                 out.write("  <tr>" +
-                        "    <td>" + resume.getUuid() + "</td>" +
+                        "    <td><a href=\"resume?uuid=" + resume.getUuid() + "\">" + resume.getUuid() + "</a></td>" +
                         "    <td>" + resume.getFullName() + "</td>" +
                         "  </tr>");
             }
