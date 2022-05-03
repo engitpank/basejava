@@ -26,10 +26,11 @@
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
                 <td>${resume.getContact(ContactType.MAIL)}</td>
-                <td><a href="resume?uuid=${resume.uuid}&action=delete">Delete</a></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=edit">Edit</a></td>
+                <td><a href="resume?uuid=${resume.uuid}&action=delete">Удалить</a></td>
+                <td><a href="resume?uuid=${resume.uuid}&action=edit">Редактировать</a></td>
             </tr>
         </c:forEach>
+        <a href="resume?action=add">Добавить резюме</a>
     </table>
 </section>
 <jsp:include page="fragments/footer.jsp"/>

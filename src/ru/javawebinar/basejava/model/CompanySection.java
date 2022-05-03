@@ -82,11 +82,11 @@ public class CompanySection implements Serializable {
         }
 
         public Experience(int startMonth, int startYear, String title, String description) {
-            this(of(startMonth, startYear), NOW, title, description);
+            this(of(startYear, startMonth), NOW, title, description);
         }
 
         public Experience(int startMonth, int startYear, int endMonth, int endYear, String title, String description) {
-            this(of(startMonth, startYear), of(endYear, endMonth), title, description);
+            this(of(startYear, startMonth ), of(endYear, endMonth), title, description);
         }
 
         public Experience(YearMonth startDate, YearMonth finishDate, String title, String description) {

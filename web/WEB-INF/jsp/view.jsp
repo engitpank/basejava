@@ -26,25 +26,23 @@
     <p>
     <h3>Секции: </h3>
     <c:forEach var="sectionEntry" items="${resume.sections}">
-        <c:set var="sectionType" value="${sectionEntry.key}"/>
-        <c:set var="section" value="${resume.getSection(sectionType)}"/>
+        <c:set var="type" value="${sectionEntry.key}"/>
+        <c:set var="section" value="${resume.getSection(type)}"/>
         <jsp:useBean id="section" type="ru.javawebinar.basejava.model.AbstractSection"/>
         <div class="company">
-            <h3>${sectionType.title}:</h3>
+            <h3>${type.title}:</h3>
             <c:choose>
-                <c:when test="${sectionType.equals(SectionType.PERSONAL) || sectionType.equals(SectionType.OBJECTIVE)}">
+                <c:when test="${type.equals(SectionType.PERSONAL) || type.equals(SectionType.OBJECTIVE)}">
                     <%=((SimpleLineSection) section).getText() %>
                 </c:when>
-                <c:when test="${sectionType.equals(SectionType.QUALIFICATIONS) || sectionType.equals(SectionType.ACHIEVEMENT)}">
+                <c:when test="${type.equals(SectionType.QUALIFICATIONS) || type.equals(SectionType.ACHIEVEMENT)}">
                     <ul>
                         <c:forEach var="item" items="<%=((BulletedListSection) section).getItems() %>">
-                            <li>
-                                    ${item}
-                            </li>
+                            <li>${item}</li>
                         </c:forEach>
                     </ul>
                 </c:when>
-                <c:when test="${sectionType.equals(SectionType.EXPERIENCE) || sectionType.equals(SectionType.EDUCATION)}">
+                <c:when test="${type.equals(SectionType.EXPERIENCE) || type.equals(SectionType.EDUCATION)}">
                     <c:forEach var="company" items="<%=((CompanyListSection) section).getCompanySections()%>">
                         <div class="company">
                             <h3><a href="${company.homePage.link}">${company.homePage.name}</a></h3>
@@ -57,7 +55,6 @@
                     </c:forEach>
                 </c:when>
             </c:choose>
-                <%--            <p>${resume.getSection(section)}</p>--%>
         </div>
     </c:forEach>
     <jsp:include page="fragments/footer.jsp"/>

@@ -13,20 +13,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ResumeServlet extends HttpServlet {
-    Storage storage = Config.get().getStorage();
+
+    private Storage storage;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        storage = Config.get().getStorage();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume resume = storage.get(uuid);
-        resume.setFullName(fullName);
-        resume.setFullName(fullName);
+        Resume resume;
+        boolean isNotCreatedResume = uuid == null || uuid.length() == 0;
+        if (isNotCreatedResume) {
+            resume = new Resume(fullName);
+        } else {
+            resume = storage.get(uuid);
+            resume.setFullName(fullName);
+        }
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
@@ -42,19 +49,20 @@ public class ResumeServlet extends HttpServlet {
             } else {
                 switch (type) {
                     case PERSONAL, OBJECTIVE -> resume.addSection(type, new SimpleLineSection(value));
-                    case QUALIFICATIONS, ACHIEVEMENT -> resume.addSection(type, new BulletedListSection(value.split("\\n")));
+                    case QUALIFICATIONS, ACHIEVEMENT -> resume.addSection(type,
+                            new BulletedListSection(value.split("\\n"))); //\r\n|\r|
                 }
             }
         }
-        storage.update(resume);
+        if (isNotCreatedResume) {
+            storage.save(resume);
+        } else {
+            storage.update(resume);
+        }
         response.sendRedirect("resume");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-//        request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
-//        response.setHeader("Content-Type", "text/html; charset=UTF-8");
-
         String uuid = request.getParameter("uuid");
         String action = request.getParameter("action");
         if (action == null) {
@@ -69,11 +77,40 @@ public class ResumeServlet extends HttpServlet {
                 response.sendRedirect("resume");
                 return;
             }
-            case "view", "edit" -> resume = storage.get(uuid);
+            case "view" -> resume = storage.get(uuid);
+            case "add" -> {
+                resume = new Resume();
+                resume.addSection(SectionType.OBJECTIVE, new SimpleLineSection());
+                resume.addSection(SectionType.PERSONAL, new SimpleLineSection());
+                resume.addSection(SectionType.ACHIEVEMENT, new BulletedListSection(""));
+                resume.addSection(SectionType.QUALIFICATIONS, new BulletedListSection(""));
+                resume.addSection(SectionType.EDUCATION, new CompanyListSection(new CompanySection("", "", new CompanySection.Experience())));
+                resume.addSection(SectionType.EXPERIENCE, new CompanyListSection(new CompanySection("", "", new CompanySection.Experience())));
+            }
+            case "edit" -> {
+                resume = storage.get(uuid);
+                for (SectionType type : SectionType.values()) {
+                    AbstractSection section = resume.getSection(type);
+                    switch (type) {
+                        case PERSONAL, OBJECTIVE -> {
+                            if (section == null) section = new SimpleLineSection("");
+                        }
+                        case QUALIFICATIONS, ACHIEVEMENT -> {
+                            if (section == null) section = new BulletedListSection();
+                        }
+                        case EXPERIENCE, EDUCATION -> {
+                            if (section == null) section = new CompanyListSection(new CompanySection("", "",
+                                    new CompanySection.Experience(5, 2022, "", "")));
+                        }
+                    }
+                    resume.addSection(type, section);
+                }
+            }
             default -> throw new IllegalArgumentException("Action " + action + " is illegal");
         }
         request.setAttribute("resume", resume);
         request.getRequestDispatcher(("view".equals(action)) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp").forward(request,
                 response);
+
     }
 }
