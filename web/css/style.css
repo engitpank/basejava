@@ -39,8 +39,7 @@ footer {
 
 main {
     flex: 1;
-    max-width: 1024px;
-    min-width: 320px;
+    width: 1024px;
     margin: 10px auto;
     background-color: #F0F0F0;
 }

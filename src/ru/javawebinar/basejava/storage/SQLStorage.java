@@ -112,17 +112,23 @@ public class SQLStorage implements Storage {
         LOG.info("Get " + uuid);
         return sqlHelper.transactionalExecute(conn -> {
             Resume resume;
-            try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM resume r LEFT JOIN contact c ON r.uuid = c.resume_uuid  WHERE r.uuid =?")) {
+            try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM resume r WHERE r.uuid =?")) {
                 preparedStatement.setString(1, uuid);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (!resultSet.next()) {
                     throw new NotExistStorageException(uuid);
                 }
                 resume = new Resume(uuid, resultSet.getString("full_name"));
-                do {
-                    addContact(resume, resultSet);
-                } while (resultSet.next());
             }
+
+            try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM contact c WHERE c.resume_uuid=?")) {
+                preparedStatement.setString(1, uuid);
+                ResultSet contactSet = preparedStatement.executeQuery();
+                while (contactSet.next()) {
+                    addContact(resume, contactSet);
+                }
+            }
+
             try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM section s WHERE s.resume_uuid =?")) {
                 preparedStatement.setString(1, uuid);
                 ResultSet sectionSet = preparedStatement.executeQuery();

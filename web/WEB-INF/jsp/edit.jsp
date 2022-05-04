@@ -7,6 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/style.css">
+    <script src="scripts/inputValidator.js"></script>
     <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
@@ -15,11 +16,11 @@
     <jsp:include page="fragments/header.jsp"/>
     <main>
         <section class="resume">
-            <form method="post" action="resume" enctype="application/x-www-form-urlencoded">
+            <form method="post" action="resume" enctype="application/x-www-form-urlencoded" onsubmit="return validateForm ( );">
                 <input type="hidden" name="uuid" value="${resume.uuid}">
                 <div class="input-block">
                     <label>Имя:</label>
-                    <input type="text" name="fullName" size="50" value="${resume.fullName}"/>
+                    <input type="text" id="fullName" name="fullName" size="50" required value="${resume.fullName}"/>
                 </div>
                 <hr>
                 <h3>Контакты: </h3>
@@ -39,18 +40,20 @@
                         <h3>${type.title}:</h3>
                         <c:choose>
                             <c:when test="${type.equals(SectionType.PERSONAL) || type.equals(SectionType.OBJECTIVE)}">
-                            <textarea id="${type.name()}"
-                                      name="${type.name()}"><%=((SimpleLineSection) section).getText()%></textarea>
+                                <label for="${type.name()}">${type.title}</label>
+                                <textarea id="${type.name()}"
+                                          name="${type.name()}"><%=((SimpleLineSection) section).getText()%></textarea>
                             </c:when>
                             <c:when test="${type.equals(SectionType.QUALIFICATIONS) || type.equals(SectionType.ACHIEVEMENT)}">
-                            <textarea id="${type.name()}" name="${type.name()}"><%=String.join("\n", ((BulletedListSection)
-                                    section).getItems())%></textarea>
+                                <label for="${type.name()}">${type.title}</label>
+                                <textarea id="${type.name()}" name="${type.name()}"><%=String.join("\n", ((BulletedListSection)
+                                        section).getItems())%></textarea>
                             </c:when>
                         </c:choose>
                     </div>
                 </c:forEach>
                 <div class="action-button">
-                    <button type="submit">Сохранить</button>
+                    <button type="submit" id="submit">Сохранить</button>
                     <button type="button" onclick="window.history.back(); return false;">Отменить</button>
                 </div>
             </form>
