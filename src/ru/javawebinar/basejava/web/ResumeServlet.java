@@ -100,7 +100,7 @@ public class ResumeServlet extends HttpServlet {
                         }
                         case EXPERIENCE, EDUCATION -> {
                             if (section == null) section = new CompanyListSection(new CompanySection("", "",
-                                    new CompanySection.Experience(5, 2022, "", "")));
+                                    new CompanySection.Experience()));
                         }
                     }
                     resume.addSection(type, section);

@@ -11,28 +11,33 @@
     <title>Список всех резюме</title>
 </head>
 <body>
-<jsp:include page="fragments/header.jsp"/>
-<section>
-    <table>
-        <tr>
-            <th>Имя</th>
-            <th>Email</th>
-            <th></th>
-            <th></th>
-        </tr>
-        <jsp:useBean id="resumes" scope="request" type="java.util.List"/>
-        <c:forEach items="${resumes}" var="resume">
-            <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume"/>
-            <tr>
-                <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td>${resume.getContact(ContactType.MAIL)}</td>
-                <td><a href="resume?uuid=${resume.uuid}&action=delete">Удалить</a></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=edit">Редактировать</a></td>
-            </tr>
-        </c:forEach>
-        <a href="resume?action=add">Добавить резюме</a>
-    </table>
-</section>
-<jsp:include page="fragments/footer.jsp"/>
+<div class="layout-wrapper">
+    <jsp:include page="fragments/header.jsp"/>
+    <main>
+        <section class="resume">
+            <a href="resume?action=add">Добавить резюме</a>
+            <table class="resume-list">
+                <tr>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <jsp:useBean id="resumes" scope="request" type="java.util.List"/>
+                <c:forEach items="${resumes}" var="resume">
+                    <jsp:useBean id="resume" type="ru.javawebinar.basejava.model.Resume"/>
+                    <tr>
+                        <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
+                        <td>${resume.getContact(ContactType.MAIL)}</td>
+                        <td><a href="resume?uuid=${resume.uuid}&action=delete">Удалить</a></td>
+                        <td><a href="resume?uuid=${resume.uuid}&action=edit">Редактировать</a></td>
+                    </tr>
+                </c:forEach>
+
+            </table>
+        </section>
+    </main>
+    <jsp:include page="fragments/footer.jsp"/>
+</div>
 </body>
 </html>

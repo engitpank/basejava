@@ -1,14 +1,154 @@
-header{
-    background: none repeat scroll 0 0 #A6C9E2;
-    color: #2E6E9E;
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,600;1,300&display=swap');
+
+html, body {
     font-size: 20px;
-    padding: 5px 20px;
+    font-family: "Fira Sans", sans-serif;
+    margin: 0;
+    height: 100%;
 }
 
-footer{
-    background: none repeat scroll 0 0 #A6C9E2;
-    color: #2E6E9E;
-    font-size: 20px;
-    padding: 5px 20px;
-    margin: 20px 0;
+.layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #f0f0f0;
+    overflow: auto;
+}
+
+a:active, a {
+    text-decoration: none;
+    color: #487284;
+}
+
+header {
+    background: none repeat scroll 0 0 #303b44;
+    position: relative;
+    color: #fff;
+    padding: 20px 20px;
+}
+
+header a {
+    color: #fff;
+}
+
+footer {
+    background: none repeat scroll 0 0 #303b44;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+main {
+    flex: 1;
+    max-width: 1024px;
+    min-width: 320px;
+    margin: 10px auto;
+    background-color: #F0F0F0;
+}
+
+.resume-list {
+    background-color: #FFFFFF;
+    min-width: 1024px;
+    padding: 16px 20px;
+    margin: 10px 0;
+    border-spacing: 16px 10px;
+    text-align: center;
+}
+
+.resume {
+    font-size: 14px;
+    /*padding: 16px 20px;*/
+}
+
+.resume form {
+    min-width: 1024px;
+}
+
+tr {
+    text-align: left;
+    padding: 5px;
+}
+
+td {
+    padding: 0;
+}
+
+tr:hover {
+    opacity: 70%;
+}
+
+h3, h4 {
+    margin: 16px 0;
+}
+
+.section-item {
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+#fullname {
+    margin-top: 5px;
+}
+
+.company-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.experience {
+    display: flex;
+}
+
+.experience-description h4 {
+    margin-top: 0;
+}
+
+.experience-date {
+    min-width: 150px;
+}
+
+form input {
+    border: 1px solid #babdbf;
+    display: inline-block;
+    width: 320px;
+    padding: 0 12px;
+    border-radius: 4px;
+    height: 40px;
+    box-sizing: border-box;
+    margin-left: 15px;
+}
+
+.input-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    margin-bottom: 20px;
+}
+
+textarea {
+    padding: 12px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 1px solid #babdbf;
+    min-height: 50px;
+    resize: vertical;
+    vertical-align: center;
+    display: inline-block;
+}
+
+button {
+    height: 48px;
+    padding: 0 16px;
+    line-height: 46px;
+    font-size: 16px;
+    border: 1px solid #303b44;
+    color: #fff;
+    background-color: #303b44;
+    cursor: pointer;
+}
+
+.action-button {
+    display: flex;
+    justify-content: space-between;
 }
