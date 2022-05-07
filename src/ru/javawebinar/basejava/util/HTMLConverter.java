@@ -11,4 +11,8 @@ public class HTMLConverter {
             default -> "<a href='" + value + "'>" + type.getTitle() + "</a>";
         };
     }
+
+    public static int parseIntParameter(String value) {
+        return value == null ? -1 : Integer.parseInt(value);
+    }
 }

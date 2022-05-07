@@ -6,6 +6,7 @@
 <%@ page import="ru.javawebinar.basejava.model.BulletedListSection" %>
 <%@ page import="ru.javawebinar.basejava.model.CompanyListSection" %>
 <%@ page import="ru.javawebinar.basejava.model.AbstractSection" %>
+<%@ page import="ru.javawebinar.basejava.util.DateUtil" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -49,11 +50,19 @@
                             <c:when test="${type.equals(SectionType.EXPERIENCE) || type.equals(SectionType.EDUCATION)}">
                                 <c:forEach var="company" items="<%=((CompanyListSection) section).getCompanySections()%>">
                                     <div class="company-block">
-                                        <h3><a href="${company.homePage.link}">${company.homePage.name}</a></h3>
+                                        <c:choose>
+                                            <c:when test="${empty company.homePage.link}">
+                                                <h3><a href="#">${company.homePage.name}</a></h3>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h3><a href="${company.homePage.link}">${company.homePage.name}</a></h3>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <c:forEach var="experience" items="${company.experienceList}">
+                                            <jsp:useBean id="experience" type="ru.javawebinar.basejava.model.CompanySection.Experience"/>
                                             <div class="experience">
                                                 <div class="experience-date">
-                                                    <span>${experience.startDate} - ${experience.finishDate}</span>
+                                                    <span><%=DateUtil.format(experience.getStartDate())%> - <%=DateUtil.format(experience.getFinishDate())%></span>
                                                 </div>
                                                 <div class="experience-description">
                                                     <h4>${experience.title}</h4>

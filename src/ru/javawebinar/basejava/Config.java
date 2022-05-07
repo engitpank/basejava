@@ -47,4 +47,9 @@ public class Config {
         }
         return homeDir;
     }
+
+    public static void main(String[] args) {
+        String res = "sdfsdf    \\n \\n sfsdf asd      gf    ".replaceAll("", " ");
+        System.out.println(res);
+    }
 }

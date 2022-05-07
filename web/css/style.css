@@ -76,7 +76,7 @@ tr:hover {
 }
 
 h3, h4 {
-    margin: 16px 0;
+    margin: 10px 0;
 }
 
 .section-item {
@@ -88,27 +88,61 @@ h3, h4 {
     margin-top: 5px;
 }
 
-.company-block {
+.section-block {
     display: flex;
     flex-direction: column;
 }
 
+.company-block {
+    margin-bottom: 20px;
+}
+
+.company-block label {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
 .experience {
     display: flex;
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
 .experience-description h4 {
     margin-top: 0;
 }
 
+.experience-description-input {
+    display: flex;
+    flex-direction: column;;
+}
+
+.experience-block-input {
+    border-left: 3px dashed #babdbf;
+    margin-left: 60px;
+    padding-left: 10px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
 .experience-date {
-    min-width: 150px;
+    min-width: 230px;
+}
+
+.homePage-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.homePage-item {
+    display: flex;
+    flex-direction: column;
 }
 
 form input {
     border: 1px solid #babdbf;
     display: inline-block;
-    width: 320px;
+    max-width: 320px;
     padding: 0 12px;
     border-radius: 4px;
     height: 40px;
@@ -130,13 +164,14 @@ textarea {
     border-radius: 4px;
     box-sizing: border-box;
     border: 1px solid #babdbf;
-    min-height: 50px;
+    min-height: 110px;
     resize: vertical;
     vertical-align: center;
     display: inline-block;
 }
 
 button {
+    border-radius: 30px;
     height: 48px;
     padding: 0 16px;
     line-height: 46px;
@@ -145,9 +180,74 @@ button {
     color: #fff;
     background-color: #303b44;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .action-button {
     display: flex;
     justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.checkbox-label input {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #babdbf;
+    cursor: pointer;
+}
+
+.date {
+    transition: .4s;
+}
+
+.checkbox-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 175px;
+}
+
+.blue-button {
+    border: 1px solid #128cf0;
+    color: #fff;
+    background-color: #1476c6;
+}
+
+.red-button {
+    border: 1px solid #d6174c;
+    color: #fff;
+    background-color: #d6174c;
+}
+
+.experience-button-block button {
+    background-color: unset;
+    border: 0;
+    height: unset;
+    padding: 0;
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.experience-button-block {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.section-button {
+    height: 36px;
+    padding: 0 10px;
+    line-height: 36px;
+    color: #000;
+    margin-top: 10px;
+    background-color: unset;
+    border-radius: 0;
 }
