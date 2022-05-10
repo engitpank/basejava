@@ -5,7 +5,7 @@ import java.io.Serial;
 public class SimpleLineSection extends AbstractSection {
     @Serial
     private static final long serialVersionUID = 1L;
-
+    public final static SimpleLineSection EMPTY_LINE_SECTION = new SimpleLineSection("");
     private String text;
 
     public SimpleLineSection() {

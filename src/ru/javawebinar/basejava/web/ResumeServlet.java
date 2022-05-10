@@ -5,7 +5,6 @@ import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 import ru.javawebinar.basejava.util.DateUtil;
-import ru.javawebinar.basejava.util.HTMLConverter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -13,18 +12,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.YearMonth;
 import java.util.ArrayList;
+
+import static ru.javawebinar.basejava.model.BulletedListSection.EMPTY_BULLETED_SECTION;
+import static ru.javawebinar.basejava.model.CompanySection.EMPTY_COMPANY;
+import static ru.javawebinar.basejava.model.CompanySection.Experience.EMPTY_EXPERIENCE;
+import static ru.javawebinar.basejava.model.Resume.EMPTY_RESUME;
+import static ru.javawebinar.basejava.model.SimpleLineSection.EMPTY_LINE_SECTION;
+import static ru.javawebinar.basejava.util.HTMLConverter.isEmpty;
+import static ru.javawebinar.basejava.util.HTMLConverter.parseIntParameter;
 
 public class ResumeServlet extends HttpServlet {
 
     private Storage storage;
-
-    private final static SimpleLineSection EMPTY_LINE_SECTION = new SimpleLineSection("");
-    private final static BulletedListSection EMPTY_BULLETED_SECTION = new BulletedListSection("");
-    private final static CompanySection.Experience EMPTY_EXPERIENCE = new CompanySection.Experience(YearMonth.now().getMonth().getValue()
-            , YearMonth.now().getYear(), "", "");
-    private final static CompanySection EMPTY_COMPANY = new CompanySection("", "", EMPTY_EXPERIENCE);
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -49,7 +49,7 @@ public class ResumeServlet extends HttpServlet {
             if (isEmpty(value)) {
                 resume.getContacts().remove(type);
             } else {
-                resume.addContact(type, value);
+                resume.setContact(type, value);
             }
         }
         for (SectionType type : SectionType.values()) {
@@ -59,22 +59,22 @@ public class ResumeServlet extends HttpServlet {
                 resume.getSections().remove(type);
             } else {
                 switch (type) {
-                    case PERSONAL, OBJECTIVE -> resume.addSection(type, new SimpleLineSection(value));
+                    case PERSONAL, OBJECTIVE -> resume.setSection(type, new SimpleLineSection(value));
                     case QUALIFICATIONS, ACHIEVEMENT -> {
                         String[] items = value.trim().split("[\\s+]{2,}");
-                        resume.addSection(type, new BulletedListSection(items));
+                        resume.setSection(type, new BulletedListSection(items));
                     } //\r\n|\r|
                     case EDUCATION, EXPERIENCE -> {
                         ArrayList<CompanySection> companySections = new ArrayList<>();
                         String[] companyNames = request.getParameterValues(type.name());
                         String[] companyUrls = request.getParameterValues(type.name() + "pageLink");
-                        int indexOfDeletedSection = HTMLConverter.parseIntParameter(request.getParameter(type + "deletedSection"));
-                        int indexOfAddedSection = HTMLConverter.parseIntParameter(request.getParameter(type + "addSection"));
-                        int indexOfAddedExpSection = HTMLConverter.parseIntParameter(request.getParameter(type + "addExperience"));
+                        int indexOfDeletedSection = parseIntParameter(request.getParameter(type + "deletedSection"));
+                        int indexOfAddedSection = parseIntParameter(request.getParameter(type + "addSection"));
+                        int indexOfAddedExpSection = parseIntParameter(request.getParameter(type + "addExperience"));
                         String deletedExperience = request.getParameter(type + "deletedExperience");
                         String[] indexesExperience = deletedExperience != null ? deletedExperience.split(",") : new String[]{"-1", "-1"};
-                        int indexOfDeletedExp = HTMLConverter.parseIntParameter(indexesExperience[1]);
-                        int indexOfDeletedExpInCompany = HTMLConverter.parseIntParameter(indexesExperience[0]);
+                        int indexOfDeletedExp = parseIntParameter(indexesExperience[1]);
+                        int indexOfDeletedExpInCompany = parseIntParameter(indexesExperience[0]);
                         for (int i = 0; i < companyNames.length; i++) {
                             ArrayList<CompanySection.Experience> experiences = new ArrayList<>();
                             if (!isEmpty(companyNames[i]) && indexOfDeletedSection != i) {
@@ -101,9 +101,9 @@ public class ResumeServlet extends HttpServlet {
                             }
                         }
                         if (companySections.size() == 0) {
-                            resume.addSection(type, new CompanyListSection(EMPTY_COMPANY));
+                            resume.setSection(type, new CompanyListSection(EMPTY_COMPANY));
                         } else {
-                            resume.addSection(type, new CompanyListSection(companySections));
+                            resume.setSection(type, new CompanyListSection(companySections));
                         }
 
                     }
@@ -120,10 +120,6 @@ public class ResumeServlet extends HttpServlet {
         } else {
             response.sendRedirect("resume");
         }
-    }
-
-    private boolean isEmpty(String value) {
-        return value == null || value.trim().length() == 0;
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -143,13 +139,13 @@ public class ResumeServlet extends HttpServlet {
             }
             case "view" -> resume = storage.get(uuid);
             case "add" -> {
-                resume = new Resume();
-                resume.addSection(SectionType.OBJECTIVE, EMPTY_LINE_SECTION);
-                resume.addSection(SectionType.PERSONAL, EMPTY_LINE_SECTION);
-                resume.addSection(SectionType.ACHIEVEMENT, EMPTY_BULLETED_SECTION);
-                resume.addSection(SectionType.QUALIFICATIONS, EMPTY_BULLETED_SECTION);
-                resume.addSection(SectionType.EDUCATION, new CompanyListSection(EMPTY_COMPANY));
-                resume.addSection(SectionType.EXPERIENCE, new CompanyListSection(EMPTY_COMPANY));
+                resume = EMPTY_RESUME;
+                resume.setSection(SectionType.OBJECTIVE, EMPTY_LINE_SECTION);
+                resume.setSection(SectionType.PERSONAL, EMPTY_LINE_SECTION);
+                resume.setSection(SectionType.ACHIEVEMENT, EMPTY_BULLETED_SECTION);
+                resume.setSection(SectionType.QUALIFICATIONS, EMPTY_BULLETED_SECTION);
+                resume.setSection(SectionType.EDUCATION, new CompanyListSection(EMPTY_COMPANY));
+                resume.setSection(SectionType.EXPERIENCE, new CompanyListSection(EMPTY_COMPANY));
             }
             case "edit" -> {
                 resume = storage.get(uuid);
@@ -166,7 +162,7 @@ public class ResumeServlet extends HttpServlet {
                             if (section == null) section = new CompanyListSection(EMPTY_COMPANY);
                         }
                     }
-                    resume.addSection(type, section);
+                    resume.setSection(type, section);
                 }
             }
             default -> throw new IllegalArgumentException("Type " + action + " is illegal");

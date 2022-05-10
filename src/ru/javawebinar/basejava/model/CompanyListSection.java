@@ -7,7 +7,6 @@ import java.util.List;
 public class CompanyListSection extends AbstractSection {
     @Serial
     private static final long serialVersionUID = 1L;
-
     private List<CompanySection> companySections;
 
     public CompanyListSection() {

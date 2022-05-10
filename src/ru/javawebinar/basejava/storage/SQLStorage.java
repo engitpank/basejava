@@ -188,13 +188,13 @@ public class SQLStorage implements Storage {
         if (!sectionSet.wasNull()) {
             SectionType type = SectionType.valueOf(sectionSet.getString("type"));
             String content = sectionSet.getString("content");
-            resume.addSection(type, JsonParser.read(content, AbstractSection.class));
+            resume.setSection(type, JsonParser.read(content, AbstractSection.class));
         }
     }
 
     private void addContact(Resume resume, ResultSet contactSet) throws SQLException {
         if (!contactSet.wasNull()) {
-            resume.addContact(ContactType.valueOf(contactSet.getString("type")), contactSet.getString("value"));
+            resume.setContact(ContactType.valueOf(contactSet.getString("type")), contactSet.getString("value"));
         }
     }
 

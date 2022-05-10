@@ -15,4 +15,8 @@ public class HTMLConverter {
     public static int parseIntParameter(String value) {
         return value == null ? -1 : Integer.parseInt(value);
     }
+
+    public static boolean isEmpty(String value) {
+        return value == null || value.trim().length() == 0;
+    }
 }

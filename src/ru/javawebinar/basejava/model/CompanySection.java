@@ -19,6 +19,7 @@ import static ru.javawebinar.basejava.util.DateUtil.of;
 public class CompanySection implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+    public final static CompanySection EMPTY_COMPANY = new CompanySection("", "", Experience.EMPTY_EXPERIENCE);
 
     private Link homePage;
     private List<Experience> experienceList;
@@ -69,6 +70,8 @@ public class CompanySection implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
+        public final static Experience EMPTY_EXPERIENCE = new CompanySection.Experience(YearMonth.now().getMonth().getValue()
+                , YearMonth.now().getYear(), "", "");
         @Serial
         private static final long serialVersionUID = 1L;
         @XmlJavaTypeAdapter(YearMonthAdapter.class)
@@ -86,7 +89,7 @@ public class CompanySection implements Serializable {
         }
 
         public Experience(int startMonth, int startYear, int endMonth, int endYear, String title, String description) {
-            this(of(startYear, startMonth ), of(endYear, endMonth), title, description);
+            this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
         public Experience(YearMonth startDate, YearMonth finishDate, String title, String description) {

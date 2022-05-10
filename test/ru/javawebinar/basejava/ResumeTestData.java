@@ -26,19 +26,19 @@ public class ResumeTestData {
         Resume resume = new Resume(uuid, fullName);
 
         // Contacts
-        resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
-        resume.addContact(ContactType.SKYPE, "grigory.kislin");
-        resume.addContact(ContactType.MAIL, "gkislin@yandex.ru");
-        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-        resume.addContact(ContactType.OWN_SITE, "http://gkislin.ru/");
+        resume.setContact(ContactType.PHONE, "+7(921) 855-0482");
+        resume.setContact(ContactType.SKYPE, "grigory.kislin");
+        resume.setContact(ContactType.MAIL, "gkislin@yandex.ru");
+        resume.setContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.setContact(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.setContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        resume.setContact(ContactType.OWN_SITE, "http://gkislin.ru/");
 
 
         // OBJECTIVE Section
-        resume.addSection(SectionType.OBJECTIVE,
+        resume.setSection(SectionType.OBJECTIVE,
                 new SimpleLineSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-        resume.addSection(SectionType.PERSONAL,
+        resume.setSection(SectionType.PERSONAL,
                 new SimpleLineSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 
         // ACHIEVEMENTS Section
@@ -48,7 +48,7 @@ public class ResumeTestData {
                 "стажировок и ведение проектов. Более 1000 выпускников.");
         achievements.add("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, " +
                 "DuoSecurity, Google Authenticator, Jira, Zendesk.");
-        resume.addSection(SectionType.ACHIEVEMENT, new BulletedListSection(achievements));
+        resume.setSection(SectionType.ACHIEVEMENT, new BulletedListSection(achievements));
 
         // QUALIFICATIONS Section
         List<String> qualifications = new ArrayList<>();
@@ -56,7 +56,7 @@ public class ResumeTestData {
         qualifications.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce.");
         qualifications.add("Родной русский, английский \"upper intermediate\".");
 
-        resume.addSection(SectionType.QUALIFICATIONS, new BulletedListSection(qualifications));
+        resume.setSection(SectionType.QUALIFICATIONS, new BulletedListSection(qualifications));
 
         // EXPERIENCE Section
         List<CompanySection> companies = new ArrayList<>();
@@ -91,7 +91,7 @@ public class ResumeTestData {
                         "анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, " +
                         "Commet, HTML5."));
         companies.add(new CompanySection(new Link("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/"), LuxoftExperienceList));
-        resume.addSection(SectionType.EXPERIENCE, new CompanyListSection(companies));
+        resume.setSection(SectionType.EXPERIENCE, new CompanyListSection(companies));
 
         // EDUCATION Section
         List<CompanySection> educationCompanies = new ArrayList<>();
@@ -106,7 +106,7 @@ public class ResumeTestData {
         MFTIExperienceList.add(new CompanySection.Experience(YearMonth.of(1984, 9), YearMonth.of(1987, 6), "Закончил с отличием", null));
         educationCompanies.add(new CompanySection(new Link("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/"), MFTIExperienceList));
 
-        resume.addSection(SectionType.EDUCATION, new CompanyListSection(educationCompanies));
+        resume.setSection(SectionType.EDUCATION, new CompanyListSection(educationCompanies));
 
         return resume;
     }
